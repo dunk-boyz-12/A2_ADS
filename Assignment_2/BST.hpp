@@ -40,11 +40,12 @@ private:
     void p_createTree(s_Node*);
     void p_deleteTree(s_Node*);
     s_Node* p_createNode(int);
-    void p_insertValue(s_Node*);
+    s_Node* p_insertValue(s_Node*, s_Node*);
     void p_findNode(s_Node*);
     void p_printTree(s_Node*);
     void p_sortTree(s_Node*);
     void p_getHeight(s_Node*);
+    void p_formattedPrint(s_Node*, int);
 };
 
 #endif /* BST_HPP */

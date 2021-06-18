@@ -8,11 +8,12 @@
 // libs
 #include <iostream>
 #include <fstream>
+#include <iomanip>
 // files
 #include "BST.hpp"
 #include "customErrorClass.h"
 
-// constructor & destructor
+// CONSTRUCTOR & DESTRUCTOR
 c_BST::c_BST() {
     this->root = NULL;
     this->totalNodes = 0;
@@ -22,35 +23,57 @@ c_BST::~c_BST() {
     //delete tree
 }
 
-// public functions
+// PUBLIC FUNCTIONS
 void c_BST::readInFile(c_BST& myBST, int& input, char inputFile[50]){
-    this->p_readInFile(myBST, input, inputFile);
+    if(inputFile == NULL){
+        throw MyException("ERROR: You must have a file to read from.");
+    } else {
+        this->p_readInFile(myBST, input, inputFile);
+    }
 };
 
 void c_BST::insertValue(int value){
     //add exc checks
     s_Node* newNode = this->p_createNode(value);
-    this->p_insertValue(newNode);
-};
-
-
-
-// private functions
-void c_BST::p_readInFile(c_BST& myBST, int& input, char inputFile[50]) {
-    fstream fileToBeRead(inputFile);
-    if(!fileToBeRead.is_open()){
-        throw MyException("ERROR: File could not be opened properly. Please check spelling of file name/if it is within the current directory");
-    } else {
-        fileToBeRead >> input;
-        myBST.insertValue(input);
-    }
-    
-}
-
-void c_BST::p_insertValue(s_Node* newNode){
     if(this->root == NULL){
         this->root = newNode;
+    } else {
+        this->p_insertValue(this->root,newNode);
     }
+};
+
+void c_BST::printTree(){
+    this->p_formattedPrint(this->root, 0);
+}
+
+
+
+// PRIVATE FUNCTIONS
+void c_BST::p_readInFile(c_BST& myBST, int& input, char inputFile[50]) {
+    //change full path before submitting!!!
+    fstream fileToBeRead("/Users/nicholasburas/XcodeProjects/CSC310_ADS_Projects/A2/Assignment_2/Assignment_2/assign.dat");
+    if(!fileToBeRead.is_open()){
+        throw MyException("ERROR: File could not be opened properly. Please check spelling of file name/if it is within the current directory.");
+    } else {
+        while(!fileToBeRead.eof()){
+            fileToBeRead >> input;
+            myBST.insertValue(input);
+        }
+        fileToBeRead.close();
+    }
+}
+
+s_Node* c_BST::p_insertValue(s_Node* root, s_Node* newNode){
+    if(root == NULL) {
+        return newNode;
+    } else {
+        if(newNode->value < root->value){
+            root->leftChild = this->p_insertValue(root->leftChild, newNode);
+        } else {
+            root->rightChild = this->p_insertValue(root->rightChild, newNode);
+        }
+    }
+    return root;
 };
 
 s_Node* c_BST::p_createNode(int value){
@@ -60,3 +83,16 @@ s_Node* c_BST::p_createNode(int value){
     newNode->rightChild = NULL;
     return newNode;
 };
+
+void c_BST::p_formattedPrint(s_Node* node, int indent){
+    if( NULL == node ){
+        return;
+    } else {
+        this->p_formattedPrint(node->leftChild, indent+4);
+        if( indent ){
+            cout<<setw(indent)<<" ";
+        }
+        cout<<node->value<<endl;
+        this->p_formattedPrint(node->rightChild, indent+4);
+    }
+}
