@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <fstream>
+#include <math.h>
 //file headers
 #include "customErrorClass.h"
 #include "BST.hpp"
@@ -19,13 +20,20 @@ int main(int argc, const char * argv[]) {
     c_BST myBST;
     char fileName[50] = "assign.dat";
     int input;
-    
-    //read in file, insert values into tree
+
     try {
+        //read in file, insert values into tree
         myBST.readInFile(myBST, input, fileName);
+        //print tree before sorting
         myBST.printTree();
-        int j;
+        //DSW Sort
+        myBST.sortTree();
+        //print tree after sorting
+        myBST.printTree();
+        
     } catch(MyException& error) {
+        std::cout << error.what();
+    } catch(exception& error) {
         std::cout << error.what();
     }
 }

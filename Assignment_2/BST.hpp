@@ -27,7 +27,7 @@ public:
     void findNode(s_Node*);
     void printTree();
     void sortTree();
-    void getHeight();
+    int getHeight();
     void deleteTree();
 private:
     s_Node* root;
@@ -36,15 +36,15 @@ private:
     void p_readInFile(c_BST&, int&, char[50]);
     void p_rotateRight(s_Node*);
     void p_rotateLeft(s_Node*);
-    void p_createVine(s_Node*);
-    void p_createTree(s_Node*);
+    void p_createVine();
+    void p_createTree();
     void p_deleteTree(s_Node*);
     s_Node* p_createNode(int);
     s_Node* p_insertValue(s_Node*, s_Node*);
     void p_findNode(s_Node*);
     void p_printTree(s_Node*);
     void p_sortTree(s_Node*);
-    void p_getHeight(s_Node*);
+    int p_getHeight(s_Node*);
     void p_formattedPrint(s_Node*, int);
 };
 
