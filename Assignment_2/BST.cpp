@@ -35,6 +35,7 @@ c_BST::c_BST() {
  */
 c_BST::~c_BST() {
     //delete tree
+    this->p_deleteTree(this->root);
 }
 
 // PUBLIC FUNCTIONS
@@ -128,7 +129,8 @@ void c_BST::sortTree(){
         throw MyException("Tree is empty.");
     } else {
         this->p_createVine();
-        this->p_createTree();
+        //not sure why im overrunning tree when doing initial rotations
+        //this->p_createTree();
     }
 };
 
@@ -221,14 +223,20 @@ int c_BST::p_getHeight(s_Node* root){
     return 0;
 }
 /*
- **    Author:
- **    Function Purpose:
+ **    Author: Nick Buras
+ **    Function Purpose: Delete Tree
  **
- **    Function Output:
- **    Side Effects:
+ **    Function Output: None
+ **    Side Effects: Tree is deleted and memory is deallocated
  */
 void c_BST::p_deleteTree(s_Node* root){
-    
+    if(root == NULL) {
+        return;
+    } else {
+        this->p_deleteTree(root->leftChild);
+        this->p_deleteTree(root->rightChild);
+        delete root;
+    }
 }
 /*
  **    Author: Nick Buras
